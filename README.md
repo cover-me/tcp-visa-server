@@ -5,6 +5,24 @@ Using VISA functions makes a data acquisition program that deals with multiple i
 
 If you want to use the tcp-visa-server as a wrapper to get/set readings/values on LabVIEW executables or VIs, you may want to use some sort of path-like string to referece LabVIEW controls like [this](https://github.com/cover-me/FP-monitor).
 
+# Note on the terminator
+Unlike GPIB, which usually uses an physical line called EOL to terminate the communication, Eithernet use the termination character for termination. As shown in the snapshot below, we set the termination character to "CRLF", which means "\r\n". Note that INI files do not support strings like "\r\n". we have to use "\0D\0A" instead.
+
+We can add the termination charactor ("\0D\0A") directly after read and output commands (RdCmd, OutCmd), or using the `AdvPara` (see https://github.com/cover-me/instrDAQ#add-a-model-that-echosrequire-a-terminatorbaud-rate-not-9600) 
+
+```ini
+; This is the comment line, ppms is a virtual instrument emulated by tcp VISA server
+[ppms]
+RdName=T(K)/B(kG)
+RdCmd=READT\0D\0A/READB\0D\0A
+SwpAvl=TRUE
+OutName="T(K): Set T(K),rate(K per min)/B(kG): Set B(kG),rate(T per min)"
+OutCMD="SETT #,##\0D\0A/SETB #,##\0D\0A"
+AdvPara=,,/FALSE
+```
+
+
+
 # Snapshots
 ![image](https://user-images.githubusercontent.com/22870592/119033461-3e2a2f00-b97b-11eb-89b2-695ccd9798a9.png)
 
