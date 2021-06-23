@@ -8,7 +8,7 @@ If you want to use the tcp-visa-server as a wrapper to get/set readings/values o
 # Note on the terminator
 Unlike GPIB, which usually uses an physical line called EOL to terminate the communication, Eithernet use the termination character for termination. As shown in the snapshot below, we set the termination character to "CRLF", which means "\r\n". Note that INI files do not support strings like "\r\n". we have to use "\0D\0A" instead.
 
-We can add the termination charactor ("\0D\0A") directly after read and output commands (RdCmd, OutCmd), or using the `AdvPara` (see https://github.com/cover-me/instrDAQ#add-a-model-that-echosrequire-a-terminatorbaud-rate-not-9600) 
+To work with instrDAQ, we can add the termination charactor ("\0D\0A") directly after read and output commands (RdCmd, OutCmd), or use the `AdvPara` (see https://github.com/cover-me/instrDAQ#add-a-model-that-echosrequire-a-terminatorbaud-rate-not-9600) 
 
 ```ini
 ; This is the comment line, ppms is a virtual instrument emulated by tcp VISA server
