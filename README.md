@@ -21,7 +21,7 @@ If you plan to use the TCP-VISA server as a wrapper for getting (setting) readin
 ## A note on the terminator
 Unlike GPIB which uses a real termination line (called EOL) for terminating communication, Eithernet uses termination characters which is a software implementation. As shown in the programming diagram below, we use the termination character "CRLF" in the server, which means "\r\n". 
 
-To work together with instrDAQ, we can either add the termination character ("\0D\0A") directly after reading and outputting commands (`RdCmd`, `OutCmd`, note that the INI file does not support strings in the form of "\r\n"), or use the `AdvPara` parameter (see https://github.com/cover-me/instrDAQ#add-a-model-that-echosrequire-a-terminatorbaud-rate-not-9600). Below is an example,
+To work together with [instrDAQ](https://github.com/cover-me/instrDAQ), we can either add the termination character ("\0D\0A") directly after reading and outputting commands (`RdCmd`, `OutCmd`, note that the INI file does not support strings in the form of "\r\n"), or use the `AdvPara` parameter (see https://github.com/cover-me/instrDAQ#add-a-model-that-echosrequire-a-terminatorbaud-rate-not-9600). Below is an example,
 
 ```ini
 ; This is the comment line, ppms is a virtual instrument emulated by tcp VISA server
@@ -44,8 +44,16 @@ AdvPara=,,/FALSE
 
 See [cover-me/repository/Leiden/TC_messenger_2021_02_01/](https://github.com/cover-me/repository/tree/master/Leiden/TC_messenger_2021_02_01). 
 
-This program works as a mediator between the data acquisition program and Leiden's temperature controlling program.
+This program works as a mediator between the data acquisition program and Leiden's temperature controlling program (a LabVIEW executable).
 
 ![image](https://user-images.githubusercontent.com/22870592/119033538-526e2c00-b97b-11eb-81af-ce5ff5eb0dab.png)
 
 ![image](https://user-images.githubusercontent.com/22870592/119033546-539f5900-b97b-11eb-890a-c84c9cdb5875.png)
+
+## Further reading on the data-taking program:
+
+[A prototype for data taking programs](https://cover-me.github.io/2020/01/11/A-prototype-for-data-taking-programs.html)
+
+[Data taking program: make it non-atomic](https://cover-me.github.io/2021/10/17/data-taking-program-make-it-non-atomic.html)
+
+
