@@ -1,14 +1,27 @@
-# tcp-visa-server
-This is a prototype working as a wrapper program for instruments that don't support VISA write/read functions. 
+# What is it?
 
-Using VISA functions makes a data acquisition program that deals with multiple instruments (lockin, multimeter, ...) simpler. However, not every datapoint can be fetched by these functions. Sometimes people have to work with .dll. Sometimes people want to read/set values on the interface of a third-party program (yes...). In order not to rewrite the data acquisition program, a tcp visa server is needed. The data acquisition program asks the tcp visa server for data or settings, and the tcp visa server take care of the rest.
+This is a LabVIEW prototype of a Virtual Instrument Software Architecture (VISA) program based on the TCP/IP protocol. It behaviors as a virtual instrument which can be reached by VISA write/read functions.
 
-If you want to use the tcp-visa-server as a wrapper to get/set readings/values on LabVIEW executables or VIs, you may want to use some sort of path-like string to referece LabVIEW controls like [this](https://github.com/cover-me/FP-monitor).
+# What is it used for?
+ 
+ **Short answer**
+ 
+It can be used as a wrapper program for instruments which do not support VISA write/read functions. 
 
-# Note on the terminator
-Unlike GPIB, which usually uses an physical line called EOL to terminate the communication, Eithernet use termination characters for termination. As shown in the snapshot below, we set the termination character to "CRLF", which means "\r\n". Note that INI files do not support strings like "\r\n". we have to use "\0D\0A" instead.
+**Long answer**
 
-To work with instrDAQ, we can add the termination charactor ("\0D\0A") directly after read and output commands (RdCmd, OutCmd), or use the `AdvPara` (see https://github.com/cover-me/instrDAQ#add-a-model-that-echosrequire-a-terminatorbaud-rate-not-9600) 
+Using VISA write/read functions makes a data acquisition program, which takes data from and sets parameters in multiple instruments (lockin, multimeter, ...), simpler. Unfortunately, not all instruments follow this paradigm. Sometimes one has to work with DLL drivers. Sometimes one wants to read/set values on the GUI of a very specific third-party program. A VISA wrapping server could help without rewriting the elegant data-acquisition program. The data-acquisition program asks the tcp-visa server for readings and settings, and the latter takes care of the rest.
+
+# Further reading
+
+## A TCP-VISA sever for LabVIEW executables
+
+If you plan to use the TCP-VISA server as a wrapper for getting (setting) readings (values) on LabVIEW executables or VIs provided by an instrument manufacturer, you may want to check this [example](https://github.com/cover-me/FP-monitor) out.
+
+## A note on the terminator
+Unlike GPIB which uses a real termination line (called EOL) for terminating communication, Eithernet uses termination characters which is a software implementation. As shown in the programming diagram below, we use the termination character "CRLF" in the server, which means "\r\n". 
+
+To work together with instrDAQ, we can either add the termination character ("\0D\0A") directly after reading and outputting commands (`RdCmd`, `OutCmd`, note that the INI file does not support strings in the form of "\r\n"), or use the `AdvPara` parameter (see https://github.com/cover-me/instrDAQ#add-a-model-that-echosrequire-a-terminatorbaud-rate-not-9600). Below is an example,
 
 ```ini
 ; This is the comment line, ppms is a virtual instrument emulated by tcp VISA server
@@ -21,14 +34,13 @@ OutCMD="SETT #,##\0D\0A/SETB #,##\0D\0A"
 AdvPara=,,/FALSE
 ```
 
+## Programming diagram and front panel
 
-
-# Snapshots
 ![image](https://user-images.githubusercontent.com/22870592/119033461-3e2a2f00-b97b-11eb-89b2-695ccd9798a9.png)
 
 ![image](https://user-images.githubusercontent.com/22870592/119033470-41251f80-b97b-11eb-83a2-7a93c4c24e6b.png)
 
-# Snapshots from a real application
+## Snapshots from a real application
 
 See [cover-me/repository/Leiden/TC_messenger_2021_02_01/](https://github.com/cover-me/repository/tree/master/Leiden/TC_messenger_2021_02_01). 
 
